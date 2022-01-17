@@ -35,7 +35,8 @@ function SetTitleModule() {
   btnAdd.innerText = "add";
 }
 // add todo in html
-function AddTodo() {
+function AddTodo(e) {
+  e.preventDefault();
   const todoItem = document.createElement("li");
   let result = "";
   result = `
@@ -57,9 +58,10 @@ function AddTodo() {
   todoItem.innerHTML = result;
 
   todolist.appendChild(todoItem);
-  inputBox.value = "";
+  saveLocualTodos(inputBox.value);
+  // inputBox.value="";
 }
-
+// add todo in dom 
 function editanddlite(e) {
   const text_todo = document.querySelectorAll(".text");
 
@@ -72,10 +74,18 @@ function editanddlite(e) {
     todo.remove();
   } else if (item.classList[0] === "form-checkbox") {
     if (item.checked == true) {
-      item.parentElement.classList.toggle("complid")
-    }
-    else{
-      item.parentElement.classList.remove("complid")
+      item.parentElement.classList.toggle("complid");
+    } else {
+      item.parentElement.classList.remove("complid");
     }
   }
+}
+// read todo in localstorage 
+function saveLocualTodos(todo) {
+  let savedTodos = localStorage.getItem("todos")
+    ? JSON.parse(localStorage.getItem("todos"))
+    : [];
+  console.log(savedTodos);
+  savedTodos.push(todo);
+  localStorage.setItem("todos", JSON.stringify(savedTodos));
 }
