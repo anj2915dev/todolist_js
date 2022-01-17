@@ -8,3 +8,6 @@
 .form-checkbox {
     @apply h-6 w-6 text-blue-600 mr-3 mt-2
 }
+.complid{
+    @apply opacity-30 line-through
+}
