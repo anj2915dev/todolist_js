@@ -82,7 +82,7 @@ function editanddlite(e) {
     }
   }
 }
-// read todo in localstorage
+// set todo in locale storage
 function setTodo(todo) {
   let savedTodos = localStorage.getItem("todos")
     ? JSON.parse(localStorage.getItem("todos"))
@@ -91,6 +91,7 @@ function setTodo(todo) {
   savedTodos.push(todo);
   localStorage.setItem("todos", JSON.stringify(savedTodos));
 }
+// get todo from  localestorage and add to html
 function getTodo() {
   let savedTodos = localStorage.getItem("todos")
     ? JSON.parse(localStorage.getItem("todos"))
@@ -121,3 +122,9 @@ function getTodo() {
   date();
 }
 
+function date() {
+  var d = new Date();
+  console.log(d.getDate());
+  console.log(d.getTime());
+  console.log(d.getFullYear());
+}
