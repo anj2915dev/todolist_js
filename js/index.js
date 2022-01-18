@@ -1,4 +1,3 @@
-
 const btn_show = document.querySelector(".btn-show");
 const module = document.querySelector(".module"); //module
 const btnClose = document.querySelector(".btn-close");
@@ -25,6 +24,7 @@ document.querySelector("DOMContentLoaded", getTodo());
 // start function
 
 // close module
+let todos=[id,tod]
 function CloseModule() {
   module.classList.remove("flex");
   module.classList.add("hidden");
@@ -34,6 +34,7 @@ function CloseModule() {
 function ShowModule() {
   module.classList.remove("hidden");
   module.classList.add("flex");
+  inputBox.value="";
 }
 // shomodule edit
 function ShowModuleEdit(e) {
@@ -49,28 +50,36 @@ function SetTitleModule() {
 // add todo in html
 function AddTodo(e) {
   e.preventDefault();
-  const todoItem = document.createElement("li");
-  let result = "";
-  result = `
-<!-- items todo -->
-<li class="todo  ">
-    <!-- content and chekbox -->
-    <span class="flex items-center text-2xl">
-        <input type="checkbox" class="form-checkbox rounded-full">
 
-        <p class="text">
-        ${inputBox.value}
-        </p>
-    </span>
-    <span class="text-2xl">
-        <i class="btn-edit fas fa-pencil-alt text-blue-500"></i>
-        <i class=" fa fa-trash text-red-600 ml-4" aria-hidden="true"></i>
-    </span>
-</li>`;
-  todoItem.innerHTML = result;
+  if (e.target.innerText === "add") {
+    const todoItem = document.createElement("li");
+    todoItem.classList.add("todo")
+    let result = "";
+    result = `
+  <!-- items todo -->
+  
+      <!-- content and chekbox -->
+      <span class="flex items-center text-2xl">
+          <input type="checkbox" class="form-checkbox rounded-full">
+  
+          <p class="text">
+          ${inputBox.value}
+          </p>
+      </span>
+      <span class="text-2xl">
+          <i class="btn-edit fas fa-pencil-alt text-blue-500"></i>
+          <i class=" fa fa-trash text-red-600 ml-4" aria-hidden="true"></i>
+      </span>
+ `;
+    todoItem.innerHTML = result;
 
-  todolist.appendChild(todoItem);
-  setTodo(inputBox.value);
+    todolist.appendChild(todoItem);
+    setTodo(inputBox.value);
+  }
+  else{
+    readTodos(inputBox.value)
+  }
+
   inputBox.value = "";
 }
 // add todo in dom
@@ -81,6 +90,7 @@ function editanddlite(e) {
   if (item.classList[0] === "btn-edit") {
     ShowModuleEdit();
     inputBox.value = item.parentElement.parentElement.innerText;
+  
   } else if (item.classList[1] === "fa-trash") {
     const todo = item.parentElement.parentElement;
     removeLocultodos(todo);
@@ -90,7 +100,7 @@ function editanddlite(e) {
     if (item.checked == true) {
       item.parentElement.classList.add("complid");
 
-      item.parentElement.parentElement.parentElement.classList.add("iscumplid");
+     
       item.parentElement.parentElement.children[1].children[0].classList.add(
         "hidden"
       );
@@ -152,13 +162,26 @@ function removeLocultodos(y) {
   const filterTodos = savedTodos.filter((i) => i !== y.children[0].innerText);
   localStorage.setItem("todos", JSON.stringify(filterTodos));
 }
+function readTodos(todo) {
+ 
+  const todos= JSON.parse(localStorage.getItem("todos"))
+  todos.forEach(item=>{
+ 
+    if(item.value=="aaa"){
+      console.log(item)
+
+    }
+    
+  })
+
+}
 // read todo class cumplid
 function redCumplid() {
   const itemtodo = todolist.children;
   console.log(itemtodo);
   const todoItem = [...itemtodo];
   todoItem.forEach((i) => {
-    if (!i.classList.contains("iscumplid")) {
+    if (!i.classList.contains("complid")) {
       i.style.display = "none";
     }
   });
@@ -174,7 +197,7 @@ function redAll() {
 }
 //  read date
 function date() {
-  var d = new Date();
+  const d = new Date();
   year.innerText = d.getFullYear();
   month.innerText = d.getMonth() + 1;
   day.innerText = d.getDate();
