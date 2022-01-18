@@ -6,11 +6,13 @@ const btnAdd = document.querySelector(".btn-add");
 const inputBox = document.querySelector(".input-box");
 const todolist = document.querySelector(".todolist");
 const btnEdit = document.querySelectorAll(".btn-edit");
+const dateDom = document.querySelectorAll(".date");
 
 btn_show.addEventListener("click", ShowModule);
 btnClose.addEventListener("click", CloseModule);
 btnAdd.addEventListener("click", AddTodo);
 todolist.addEventListener("click", editanddlite);
+document.querySelector("DOMContentLoaded", getTodo());
 
 // close module
 function CloseModule() {
@@ -58,10 +60,10 @@ function AddTodo(e) {
   todoItem.innerHTML = result;
 
   todolist.appendChild(todoItem);
-  saveLocualTodos(inputBox.value);
-  // inputBox.value="";
+  setTodo(inputBox.value);
+  inputBox.value = "";
 }
-// add todo in dom 
+// add todo in dom
 function editanddlite(e) {
   const text_todo = document.querySelectorAll(".text");
 
@@ -80,8 +82,8 @@ function editanddlite(e) {
     }
   }
 }
-// read todo in localstorage 
-function saveLocualTodos(todo) {
+// read todo in localstorage
+function setTodo(todo) {
   let savedTodos = localStorage.getItem("todos")
     ? JSON.parse(localStorage.getItem("todos"))
     : [];
@@ -89,3 +91,33 @@ function saveLocualTodos(todo) {
   savedTodos.push(todo);
   localStorage.setItem("todos", JSON.stringify(savedTodos));
 }
+function getTodo() {
+  let savedTodos = localStorage.getItem("todos")
+    ? JSON.parse(localStorage.getItem("todos"))
+    : [];
+  savedTodos.forEach((element) => {
+    const todoItem = document.createElement("li");
+    let result = "";
+    result = `
+  <!-- items todo -->
+  <li class="todo  ">
+      <!-- content and chekbox -->
+      <span class="flex items-center text-2xl">
+          <input type="checkbox" class="form-checkbox rounded-full">
+  
+          <p class="text">
+          ${element}
+          </p>
+      </span>
+      <span class="text-2xl">
+          <i class="btn-edit fas fa-pencil-alt text-blue-500"></i>
+          <i class=" fa fa-trash text-red-600 ml-4" aria-hidden="true"></i>
+      </span>
+  </li>`;
+    todoItem.innerHTML = result;
+
+    todolist.appendChild(todoItem);
+  });
+  date();
+}
+
